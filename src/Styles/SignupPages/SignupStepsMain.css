@@ -1,0 +1,30 @@
+
+
+.signup_steps_container{
+   height: 650px;
+   min-height: 400px;
+   max-height: 90vh;
+   min-width: 600px;
+   max-width: 80vw;
+   width: 600px;
+   border-radius: 16px;
+   overflow: hidden;
+   display: flex;
+   position: relative;
+   flex-direction: column;
+   flex-basis: auto;
+   align-items: stretch;
+   box-sizing: border-box;
+   position: absolute;
+   inset: 0;
+   margin: auto;
+
+   z-index: 15;
+}
+
+
+
+
+
+
+

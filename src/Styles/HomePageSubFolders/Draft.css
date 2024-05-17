@@ -1,0 +1,127 @@
+
+
+.draft_container{
+   max-width: 600px;
+   min-width: 600px;
+   min-height: 278px;
+   max-height: 820px;
+   background-color: white;
+   position: absolute;
+   border-radius: 16px;
+   z-index: 11;
+   top: 5%;
+   left: 0;
+   right: 0;
+   margin: auto;
+   display: flex;
+   flex-direction: column;
+   overflow-y: auto;
+   overflow-x: hidden;
+}
+.draft_header{
+   display: flex;
+   padding-inline: 16px;
+   padding-block: 16px;
+   justify-content: space-between;
+}
+.close_draft{
+   background-color: transparent;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 50%;
+   padding: 6px;
+   cursor: pointer;
+   transition: background-color .15s ease-in-out;
+}
+.close_draft:hover{
+   background-color: rgba(15, 20, 25, 0.1);
+}
+.close_draft>svg{
+   width: 20px;
+   height: 20px;
+   fill: currentcolor;
+   color: rgb(15, 20, 25);
+}
+.go_drafts{
+   min-width: 42px;
+   background-color: transparent;
+   cursor: pointer;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 9999px;
+   padding-inline: 16px;
+   transition: background-color .15s ease-in-out;
+}
+.go_drafts:hover{
+   background-color: rgba(29, 155, 240, 0.10);
+}
+.go_drafts>span{
+   color: rgb(53, 166, 242);
+   font-size: 15px;
+   font-weight: 700;
+   line-height: 100%;
+}
+.discard_container{
+   display: flex;
+   position: absolute;
+   width: 256px;
+   height: 196px;
+   background-color: #fff;
+   inset: 0;
+   margin: auto;
+   border-radius: 16px;
+   z-index: 13;
+   padding: 32px;
+}
+.discard{
+   display: flex;
+   flex-direction: column;
+}
+.discardBtnContainer{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   flex: 1;
+   text-align: center;
+   gap: .8rem;
+   padding-top: 16px;
+}
+.discardBtn{
+   width: 206px;
+   height: 42px;
+   border: 1px solid rgba(0,0,0,0);
+   line-height: 42px;
+   padding-inline: 24px;
+   border-radius: 100vh;
+   color: rgb(255, 255, 255);
+   background-color: rgb(244, 33, 46);
+   font-weight: 700;
+   font-size: 15px;
+   cursor: pointer;
+   user-select: none;
+}
+.discardCancelBtn{
+   user-select: none;
+   font-size: 15px;
+   width: 206px;
+   height: 42px;
+   padding-inline: 24px;
+   line-height: 42px;
+   border-radius: 100vh;
+   border: 1px solid rgba(207, 217, 222);
+   background-color: rgba(0,0,0,0);
+   color: rgb(15, 20, 25);
+   font-weight: 700;
+   cursor: pointer;
+   transition: all .15s ease-in-out;
+}
+.discardCancelBtn:hover{
+   background-color: rgba(15, 20, 25, 0.1);
+}
+
+
+
+
+

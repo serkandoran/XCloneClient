@@ -1,0 +1,227 @@
+
+
+
+:root{
+   --border_color: rgb(207,217,222);
+}
+
+.question_container{
+   margin-top: 12px;
+   min-height: 322px;
+   width: 506px;
+   display: flex;
+   border: 1px solid var(--border_color);
+   border-radius: 16px;
+   flex-direction: column;
+   align-items: center;
+   position: relative;
+}
+
+.single_question{
+   outline: 1px solid var(--border_color);
+   min-width: 446px;
+   max-width: 93%;
+   height: 48px;
+   padding-top: 6px;
+   padding-bottom: 6px;
+   margin-left: 18px;
+   margin-top: 10px;
+   margin-bottom: 2px;
+   display: flex;
+   flex-direction: column;
+   color: rgb(83,100,113);
+   position: relative;
+   justify-content: center;
+   border-radius: 4px;
+}
+.el_outline{
+   outline: 2px solid rgb(29, 155, 240);
+}
+.single_question>label{
+   font-size: 17px;
+   position: absolute;
+   left: 10px;
+   top: 18px;
+}
+.single_question>span{
+   display: none;
+   position: absolute;
+   right: 0;
+   top: 0;
+   padding-right: 12px;
+   font-size: 13px;
+}
+.single_question>input{
+   border: none;
+   font-size: 17px;
+   color: rgb(83, 100, 113);
+   margin-left: 8px;
+}
+.qwe{
+   font-size: 13px !important;
+   top: 0 !important;
+}
+.single_question>input:focus{
+   outline: none;
+}
+.focusedQuestion{
+   animation: label_animation_start .1s ease-in-out forwards;
+}
+.focusedQuestion_end{
+   animation: label_animation_end .1s ease-in-out forwards;
+}
+
+@keyframes label_animation_start{
+   to{
+      top: 0;
+      font-size: 13px;
+   }
+}
+@keyframes label_animation_end{
+   from{
+      top: 0px;
+   }
+   to{
+      top: 18px;
+   }
+}
+
+
+.question_addbuton_container{
+   display: flex;
+   width: 100%;
+}
+.question_addbuton_container>div{
+   width: 100%;
+}
+.addButton{
+   align-self: flex-end;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding-bottom: 10px;
+   padding-left: 4px;
+   padding-right: 16px;
+}
+.addButton>svg{
+   cursor: pointer;
+   font-weight: 700;
+   width: 20px;
+   user-select: none;
+   fill: currentcolor;
+   color: rgb(29, 155, 240);
+   padding: 8px;
+   border-radius: 349058px;
+   transition: background-color .1s ease-in-out;
+}
+.addButton>svg:hover{
+   background-color: rgba(29,155,240,0.10);
+}
+
+.question_bodySection{
+   border-top: 1px solid var(--border_color);
+   border-bottom: 1px solid var(--border_color);
+   height: 86px;
+   width: 100%;
+   margin-top: 12px;
+   padding-block: 12px;
+}
+.question_bodySection>label{
+   padding: 12px;
+}
+
+.poll_inp_container{
+   display: flex;
+   padding-top: 6px;
+   padding-inline: 12px;
+   gap: 30px;
+}
+.eachinput_div{
+   border-radius: 4px;
+   display: flex;
+   width: 100%;
+   height: 58px !important;
+   border: 1px solid var(--border_color);
+   justify-content: space-between;
+   position: relative;
+}
+.selectDiv_left{
+   display: flex;
+   flex-direction: column;
+   padding-left: 8px;
+   margin-top: auto;
+   margin-bottom: auto;
+}
+.selectDiv_right{
+   position: absolute;
+   background-color: transparent;
+   display: flex;
+   width: 100%;
+   height: 100%;
+}
+.selectDiv_right>select{
+   -webkit-appearance: none;
+   margin-top: auto;
+   z-index: 2;
+   opacity: 0;
+   height: 60% !important;
+   margin-left: auto;
+   width: 100%;
+   height: 50%;
+   cursor: pointer;
+   color: transparent;
+   padding: 6px;
+   user-select: none;
+   border: none;
+}
+.selectDiv_right>select:focus{
+   outline: none;
+}
+.selectDiv_right>select>option:first-child{
+   display: none;
+}
+.selectDiv_right>select::-ms-expand{
+   display: none;
+}
+.selectDiv_right>select option{
+   font-size: 18px;
+   color: rgb(15,20,25,1.00);
+   user-select: none;
+}
+.selectDiv_right>svg{
+   z-index: 1;
+   position: absolute;
+   width: 25px;
+   margin-right: 5px;
+   color: rgba(83, 100, 113, 1.00);
+   fill: currentcolor;
+   top: 0;
+   bottom: 0;
+   margin-top: auto;
+   margin-bottom: auto;
+   right: 0;
+   cursor: pointer;
+}
+.question_bottomSection{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   height: 56px;
+   border-bottom-left-radius: 16px;
+   border-bottom-right-radius: 16px;
+   color: rgb(244,33,46);
+   cursor: pointer;
+   transition: background-color .2s ease-in-out;
+}
+.question_bottomSection:hover{
+   background-color: rgba(244,33,46,0.1);
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,74 @@
+
+.signup_container{
+   height: 650px;
+   min-height: 400px;
+   max-height: 90vh;
+   min-width: 600px;
+   max-width: 80vw;
+   width: 600px;
+   border-radius: 16px;
+   overflow: hidden;
+   display: flex;
+   position: relative;
+   flex-direction: column;
+   flex-basis: auto;
+   align-items: stretch;
+   box-sizing: border-box;
+   position: absolute;
+   inset: 0;
+   margin: auto;
+
+   z-index: 15;
+}
+
+.signup_page_login{
+   text-decoration: none;
+}
+#hesap_oluştur{
+   background-color: rgb(15, 20, 25);
+   outline-style: none;
+   width: 100%;
+   margin-bottom: 12px;
+   margin-top: 12px;
+   border-radius: 100vh;
+   min-height: 36px;
+   min-width: 36px;
+   transition-property: background-color;
+   transition-duration: 0.2s;
+   min-width: 36px;
+   min-height: 36px;
+   display: flex;
+   cursor: pointer;
+   padding-inline: 16px;
+   box-sizing: border-box;
+}
+
+.policy_service_cookie{
+   color: rgb(83, 100, 113);
+   line-height: 16px;
+   font-size: 13px;
+   font-weight: 400;
+}
+.policy_service_cookie > span > a{
+   text-decoration: none;
+   color: rgb(29, 155, 240);
+}
+.policy_service_cookie > span > a:hover{
+   text-decoration: underline;
+}
+
+#zaten_hesabin_var_mi{
+   margin-top: 40px;
+   color: rgb(83, 100, 113);
+   font-size: 15px;
+   font-weight: 400;
+}
+#zaten_hesabin_var_mi>span>:last-child{
+   color: rgb(29, 155, 240);
+}
+
+
+
+
+
+

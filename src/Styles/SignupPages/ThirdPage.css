@@ -1,0 +1,142 @@
+
+
+.thirdpage_container {
+   min-height: 400px;
+   max-width: 80vw;
+   max-height: 90vh;
+   height: 650px;
+   min-width: 600px;
+   flex-shrink: 1;
+   background-color: rgba(255, 255, 255, 1.00);
+   z-index: 15;
+   display: flex;
+   flex-direction: column;
+   border-radius: 16px !important;
+}
+
+
+.secondpage_header45{
+   max-width: 600px;
+   height: 53px;
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   flex-direction: row;
+   align-items: center;
+   margin-left: auto;
+   margin-right: auto;
+   padding-left: 16px;
+   padding-right: 16px;
+   flex-basis: auto;
+   background-color: rgba(255, 255, 255, 0.85);
+   backdrop-filter: blur(12px);
+   box-sizing: border-box;
+   border-radius: 16px;
+   padding-block: 10px;
+}
+
+
+
+.telefonnumarasiekle_alti{
+   margin-top: 8px;
+   color: rgb(83, 100, 113);
+}
+.thirdpage_body_bottomsection{
+   padding-left: 80px;
+   padding-right: 80px;
+   align-items: stretch;
+   display: flex;
+   box-sizing: border-box;
+   flex-basis: auto;
+   flex-direction: column;
+   margin-top: 24px;
+   margin-bottom: 24px;
+}
+.thirdpage_body_bottomsection>div {
+   background-color: rgba(0,0,0,0);
+   min-width: 52px;
+   min-height: 50px;
+   outline-style: none;
+   border: 1px solid rgba(207,217,222);
+   padding-left: 32px;
+   padding-right: 32px;
+   border-radius: 100vh;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.thirdpage_body_bottomsection>div>span {
+   color: rgba(15,20,25,1.00);
+   font-size: 17px;
+   font-weight: 700;
+   padding-bottom: 2px;
+}
+
+.ulke_kodu{
+   margin-right: 12px;
+   margin-top: 20px;
+   display: flex;
+   flex-grow: 2;
+   background-color: rgba(255, 255, 255, 1.00);
+   flex-basis: auto;
+   flex-direction: column;
+   position: relative;
+   border: 1px solid rgb(207, 217, 222);
+   border-radius: 4px;
+   width: 100%;
+}
+.ulke_kodu_border{
+   outline: 2px solid rgb(29,155,240);
+}
+
+.country_select_svg{
+   color: rgb(29, 155, 240);
+}
+
+
+.thirdsection_first_45{
+   font-size: 15px;
+   width: 92%;
+}
+.thirdsection_first_45>a{
+   text-decoration: none;
+   color: rgb(29, 155, 240);
+}
+.thirdsection_first_45>a:hover{
+   text-decoration: underline;
+}
+
+
+.secondpage_body_topsection_inner_last_45{
+   display: flex;
+   padding-bottom: 32px;
+   flex-basis: auto;
+   flex-direction: column;
+   
+}
+
+
+.border_class_45{
+   outline: 2px solid rgb(29, 155, 240) !important;
+}
+.border_class_45_wrong{
+   outline: 2px solid red !important;
+}
+.text_color_wrong{
+   color: red !important;
+}
+
+
+
+.buton_valid{
+   cursor: pointer;
+}
+.buton_inner_valid{
+   background-color: rgb(15,20,25) !important;
+}
+.buton_span_valid{
+   color: rgb(255,255,255) !important;
+}
+
+
+
