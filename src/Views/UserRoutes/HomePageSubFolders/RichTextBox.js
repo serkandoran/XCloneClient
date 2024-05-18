@@ -35,10 +35,6 @@ const RichTextBox = (props) => {
 
    const [questionFlag, setQuestionFlag] = useState(props.showQuestion)
 
-   useEffect(() => {
-      setQuestionFlag(props.showQuestion);
-   }, [props.showQuestion]);
-
    const [fillBoundary, setFillBoundary] = useState(0)
    const [emjx, setemjx] = useState()
    const [emjy, setemjy] = useState()
@@ -46,6 +42,10 @@ const RichTextBox = (props) => {
    const addNewDraftRef = useRef()
 
    const generalWrapper = useRef()
+
+   useEffect(() => {
+      setQuestionFlag(props.showQuestion);
+   }, [props.showQuestion]);
 
    useEffect(() => {
       const handleMouseDown = (e) => {

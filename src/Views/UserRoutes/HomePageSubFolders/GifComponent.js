@@ -45,7 +45,7 @@ const GifComponent = (props) => {
       outline: focusInput ? '2px solid rgb(29, 155, 240)' : '1px solid rgb(207,217,222)'
    }
    const containerStyle = {
-      overflowY: searhedGif.length === 0 && 'hidden'
+      overflowY: searhedGif.length === 0 && 'hidden',
    }
 
    const gifClickHandler = (e) => {

@@ -40,6 +40,10 @@ const MainRichTextBox = (props) => {
    const [questionStyle, setQuestionStyle] = useState(true)
    const [questionAr,setQuestionAr] = useState(['',''])
 
+   const [playingVideo,setPlayingVideo] = useState(undefined)
+   const mediaBodyRef = useRef()
+
+
    useEffect(() => {
       const handleMouseDown = (e) => {
          if (!textareaDivRef.current.contains(e.target)) {
@@ -563,6 +567,17 @@ const MainRichTextBox = (props) => {
       if (val[0].length > 0 && val[1].length > 0) setQuestionStyle(true)
       else setQuestionStyle(false)
    }
+   const videoStarted = (idx)=>{
+      setPlayingVideo(idx)
+      if(playingVideo !== undefined){
+         mediaBodyRef.current.childNodes[playingVideo].querySelector('video').pause()
+      }
+   }
+   const videoPaused = (idx)=>{
+      if (playingVideo !== undefined && playingVideo === idx){
+         setPlayingVideo(undefined)
+      }
+   }
    const postTweet = async(val,from='main')=>{
       let main_obj = {}
 
@@ -589,13 +604,13 @@ const MainRichTextBox = (props) => {
       if(from === 'draft') main_obj = val
 
 
-      // let errorOccured = false
+      let errorOccured = false
 
-      // await axios.post('http://localhost:4000/api/v1/posttweet',main_obj,
-      // {
-      //    withCredentials: true,
-      // })
-      // .catch((err) => errorOccured = true)
+      await axios.post('http://localhost:4000/api/v1/posttweet',main_obj,
+      {
+         withCredentials: true,
+      })
+      .catch((err) => errorOccured = true)
 
       // if(errorOccured) return
 
@@ -642,7 +657,7 @@ const MainRichTextBox = (props) => {
                      {mediaAr.length > 0 && <div className='uploadedMediaContainer'>
                         <div className="mediaBody">
                            {
-                              <div className='imagesContainer'>
+                              <div ref={mediaBodyRef} className='imagesContainer'>
                                  {
                                     mediaAr.map((item, key) => {
                                        return <div style={hasMultipleImage} className='each_image_div' key={key}>
@@ -657,7 +672,7 @@ const MainRichTextBox = (props) => {
 
                                           {
                                              item.mtype === 'image' ? <img src={item.mdata} alt="Selected" style={imgStyle} className='uploadedMedia' key={key} /> :
-                                                item.mtype === 'video' ? <video style={{ zIndex: '0',objectFit:'fill !important' }} controls src={item.mdata} className='uploadedMedia' key={key}></video> : 
+                                                item.mtype === 'video' ? <video onPlay={()=>videoStarted(key)} onPause={()=>videoPaused(key)} style={{ zIndex: '0',objectFit:'fill !important' }} controls src={item.mdata} className='uploadedMedia' key={key}></video> : 
                                                             <div className="uploadedGifContainer">
                                                                <Gif noLink gif={item.mdata} />
                                                             </div>
@@ -691,7 +706,7 @@ const MainRichTextBox = (props) => {
 
 
 
-                     <div className="hp_cnt_right_bottom">
+                     <div className="hp_cnt_right_bottom z2">
                         <div className='hp_cnt_right_bottom_content'>
 
                            {inputclick && <div className="everyone_can_reply">

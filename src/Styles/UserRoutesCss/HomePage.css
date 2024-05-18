@@ -224,7 +224,9 @@
 .hp_cnt_right_top:focus {
    outline: none;
 }
-
+.z2{
+   z-index: 2;
+}
 .hp_cnt_right_bottom {
    bottom: -1px;
    padding-bottom: 9px;
