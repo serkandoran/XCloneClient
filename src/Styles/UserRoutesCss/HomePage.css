@@ -6,7 +6,17 @@
    box-sizing: border-box;
    flex-basis: auto;
    gap: 2rem;
-   margin-right: 60px;
+}
+.scroll-marker {
+   position: fixed;
+   width: 6px;
+   height: 10px;
+   top: 50%; /* Sayfanın yarısında */
+   right: 0;
+   transform: translateY(-50%);
+   background-color: rgba(145, 145, 145, 0.486);
+   padding: 5px;
+   z-index: 9999;
 }
 .body_container{
    display: flex;

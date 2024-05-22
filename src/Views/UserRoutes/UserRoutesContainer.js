@@ -7,7 +7,7 @@ const UserRoutesContainer = ()=>{
 
    return <div className="user_routes_container">
 
-      {/* <NavBar /> */}
+      <NavBar />
       <Outlet />
    </div>
 }

@@ -7,8 +7,8 @@
    width: 100%;
    align-items: stretch;
    flex-basis: auto;
+   overflow-y: auto;
 }
-
 
 
 

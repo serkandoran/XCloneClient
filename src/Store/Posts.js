@@ -4,6 +4,8 @@
 
 const initial_state =[
    {
+      _id:10001010101001,
+      creatorId: 67676767676767,
       type:'draft',
       postDetail:[
          {
@@ -33,12 +35,11 @@ const initial_state =[
                },
             ]
          },
-
       ],
-      // replyCount: 154,
-      // repostCount: 2.3,
-      // likeCount: 44,
-      // viewCount: 742,
+      replyCount: 154,
+      repostCount: 2.3,
+      likeCount: 44,
+      viewCount: 742,
    }
 ]
 

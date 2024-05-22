@@ -233,6 +233,7 @@ const Draft = (props)=>{
             />
          })
       }
+      
       {
          discard && createPortal(
             <>
