@@ -27,7 +27,6 @@ const MainRichTextBox = (props) => {
    let stopReleasing = false
    let outOfContent = false
    const [mediaAr, setMediaAr] = useState([])
-
    const [gifFlag, setGifFlag] = useState(false)
 
    const [questionFlag, setQuestionFlag] = useState(false)
@@ -42,7 +41,6 @@ const MainRichTextBox = (props) => {
 
    const [playingVideo,setPlayingVideo] = useState(undefined)
    const mediaBodyRef = useRef()
-
 
    useEffect(() => {
       const handleMouseDown = (e) => {
@@ -603,26 +601,22 @@ const MainRichTextBox = (props) => {
 
       if(from === 'draft') main_obj = val
 
-
       let errorOccured = false
+      let createdPostData
 
       await axios.post('http://localhost:4000/api/v1/posttweet',main_obj,
       {
          withCredentials: true,
       })
+      .then((res)=> {
+         console.log(res);
+         createdPostData = res.data.post
+      })
       .catch((err) => errorOccured = true)
+      if(errorOccured) return
 
-      // if(errorOccured) return
+      props.addNewElement()
 
-
-      // dispatch({
-      //    type: 'ADD_POST',
-      //    payload: {
-      //       // id vericen
-      //       description: 'yeni desc1',
-      //       // type:
-      //    }
-      // })
    }
 
    return <>
