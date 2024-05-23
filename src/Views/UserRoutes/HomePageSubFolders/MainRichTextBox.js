@@ -599,23 +599,22 @@ const MainRichTextBox = (props) => {
          main_obj.postDetail.push(inner_obj)
       }
 
+      console.log(main_obj);
       if(from === 'draft') main_obj = val
 
       let errorOccured = false
       let createdPostData
 
-      await axios.post('http://localhost:4000/api/v1/posttweet',main_obj,
+      axios.post('http://localhost:4000/api/v1/posttweet',main_obj,
       {
          withCredentials: true,
       })
       .then((res)=> {
-         console.log(res);
          createdPostData = res.data.post
       })
       .catch((err) => errorOccured = true)
       if(errorOccured) return
 
-      props.addNewElement()
 
    }
 
