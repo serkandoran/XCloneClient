@@ -83,7 +83,7 @@ const HomePage = () => {
                postAr.map((el,idx)=>{
                   return <Flow 
                      key={idx}
-                     data = {idx}
+                     data = {el}
                   />
                })
             }
