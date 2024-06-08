@@ -6,10 +6,6 @@ import '../Styles/LogOut.css'
 const LogOut = ()=>{
 
 
-
-
-
-
    const loginWithGoogle = ()=>{
 
    }

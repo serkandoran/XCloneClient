@@ -19,7 +19,7 @@ import Bookmarks from './Views/UserRoutes/Bookmarks.js';
 import Communities from './Views/UserRoutes/Communities.js';
 import Profile from './Views/UserRoutes/Profile.js';
 import Tweet from './Views/UserRoutes/Tweet.js';
-
+import PostDetail from './Views/UserRoutes/HomePageSubFolders/PostDetail.js';
 
 
 const router = createBrowserRouter([
@@ -29,8 +29,8 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <Navigate to="/home" />},
       { path: '/login', element: <LoginPage /> },
-      { path: '/signup', element: <SignupPage /> },
-      { path: '/signup/steps', element: <SignupStepsMain /> },
+      // { path: '/signup', element: <SignupPage /> },
+      // { path: '/signup/steps', element: <SignupStepsMain /> },
       { path: '/basari', element: <Basari /> },
       { path: '/logout', element: <LogOut  /> },
       {
@@ -45,6 +45,7 @@ const router = createBrowserRouter([
           { path: '/communities', element: <Communities /> },
           { path: '/profile', element: <Profile /> },
           { path: '/tweet', element: <Tweet /> },
+          { path: '/status/:id', element: <PostDetail /> },
         ]
       }
       

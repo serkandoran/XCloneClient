@@ -11,6 +11,9 @@
 .flow_container:hover{
    background-color: rgba(0,0,0,0.03);
 }
+.no-hover:hover{
+   background-color: transparent;
+}
 .flow_body_header{
    display: flex;
    gap: .5rem;
@@ -56,6 +59,9 @@
    padding-bottom: 6px;
    padding-top: 4px;
 }
+.no-bbottom{
+   border: none;
+}
 .flow_each_left>div{
    width: 44px;
    height: 44px;
@@ -68,6 +74,7 @@
 
 .flow_each_right{
    padding-left: 10px;
+   width: 100%;
 }
 .flow_body_content{
    padding-top: 8px;
@@ -105,6 +112,10 @@
    grid-template-rows: 1fr 1fr;
    gap: .2rem;
 }
+.img-additional{
+   min-height: 300px;
+   max-height: 500px;
+}
 .f0{
    grid-column: 1;
    grid-row: span 2;
@@ -117,27 +128,6 @@
    grid-column: 2;
    grid-row: 2;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .flow_body_footer{
    display: flex;
    align-items: center;
@@ -149,6 +139,9 @@
 .flow_body_footer_right{
    margin-left: auto;
    gap: .7rem;
+}
+.description{
+   margin-bottom:10px;
 }
 .flow_body_footer>div{
    display: flex;
@@ -217,19 +210,24 @@
    background-color: rgba(249, 24, 128, 0.1);
    color: rgba(249, 24, 128);
 }
+.flow_body_footer_left>div:hover .like-span{
+   transition: all .2s ease-in-out;
+   color: rgba(249, 24, 128);
+}
 .flow_body_footer_left>div:hover .view {
    color: rgba(29, 155, 240, 1.00);
    transition: all .15s ease-in-out;
 }
-
 .flow_body_footer_left>div:hover .view_svg {
    transition: all .2s ease-in-out;
    background-color: rgba(29, 155, 240, 0.10);
    color: rgba(29, 155, 240, 1.00);
 }
-
-
-
-
+.like-text{
+   color: rgba(249, 24, 128) !important;
+}
+.like-active>g{
+   fill: rgba(249, 24, 128);
+}
 
 

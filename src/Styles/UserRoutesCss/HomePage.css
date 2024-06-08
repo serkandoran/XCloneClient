@@ -76,7 +76,6 @@
    position: fixed;
    max-width: 600px;
    z-index: 5;
-   /* border: 1px solid rgba(239, 243, 244, 1); */
    border-top: none;
    border-bottom: none;
 }
@@ -330,7 +329,13 @@
    fill: currentcolor;
    color: rgb(29, 155, 240);
 }
-
+.up-image{
+   transition: background-color .15s ease;
+   border-radius: 9999px;
+}
+.up-image:hover{
+   background-color: rgba(29, 155, 240, 0.1);
+}
 .hp_cnt_right_bottom_left_icons {
    padding: 6px;
    border-radius: 9999px;

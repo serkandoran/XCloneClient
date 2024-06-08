@@ -1,9 +1,12 @@
 
+import { useDispatch } from 'react-redux'
 import '../../Styles/SignupPages/FirstPage.css'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
 
 
 const FirstPage = (props)=>{
+   const dispatch = useDispatch()
    const months = [
       'Ocak', 'Şubat', 'Mart', 'Nisan','Mayıs','Haziran',
       'Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'
@@ -18,6 +21,9 @@ const FirstPage = (props)=>{
    const [selectedMonth, setSelectedMonth] = useState('')
    const [selectedDay, setSelectedDay] = useState('')
    const [selectedYear, setSelectYear] = useState('')
+   const [name,setName] = useState('')
+   const inp_name_ref = useRef()
+   const inp_name_container = useRef()
 
    const [birthDate, setBirthDate] = useState({
       birth_month: '',
@@ -40,6 +46,9 @@ const FirstPage = (props)=>{
       }
    },[birthDate])
 
+   const handleNameChange = (e)=>{
+      setName(e.target.value)
+   }
    const handleMonthChange = (e) =>{
       setSelectedMonth(e.target.value)
       setBirthDate((prev)=>(
@@ -67,30 +76,43 @@ const FirstPage = (props)=>{
          }
       ))
    }
-
    const handleFocus = (e)=>{
       if(e.target.id === 'months'){
          document.querySelector('.dogumtarihi_ay').classList.add('border_focus')
          document.querySelector('.dogumtarihi_gun').classList.remove('border_focus')
          document.querySelector('.dogumtarihi_yil').classList.remove('border_focus')
+         inp_name_container.current.classList.remove('border_focus')
       }else if(e.target.id === 'days'){
          document.querySelector('.dogumtarihi_ay').classList.remove('border_focus')
          document.querySelector('.dogumtarihi_gun').classList.add('border_focus')
          document.querySelector('.dogumtarihi_yil').classList.remove('border_focus')
+         inp_name_container.current.classList.remove('border_focus')
       }else if(e.target.id === 'years'){
          document.querySelector('.dogumtarihi_ay').classList.remove('border_focus')
          document.querySelector('.dogumtarihi_gun').classList.remove('border_focus')
          document.querySelector('.dogumtarihi_yil').classList.add('border_focus')
+         inp_name_container.current.classList.remove('border_focus')
+         } else if (inp_name_ref.current.contains(e.target)){
+            inp_name_container.current.classList.add('border_focus')
+            document.querySelector('.dogumtarihi_ay').classList.remove('border_focus')
+            document.querySelector('.dogumtarihi_gun').classList.remove('border_focus')
+            document.querySelector('.dogumtarihi_yil').classList.remove('border_focus')
       }else{
          document.querySelector('.dogumtarihi_ay').classList.remove('border_focus')
          document.querySelector('.dogumtarihi_gun').classList.remove('border_focus')
          document.querySelector('.dogumtarihi_yil').classList.remove('border_focus')
       }
    }
-   
    const handleForward = ()=>{
       if(canClick){
-         props.firstpage(birthDate)
+         dispatch({
+            type: 'AUTHING_USER_DATA',
+            payload: {
+               birthDate,
+               name
+            }
+         })
+         props.firstpage()
       }
    }
 
@@ -120,9 +142,15 @@ const FirstPage = (props)=>{
                   <h1 className="firstpage_body_topsection_inner_top_h1">What's your birth date?</h1>
                   <div className="firstpage_body_topsection_inner_top_div"><span>This won't be public.</span></div>
                </div>
+
+
+               <div className='inp-name border_focus' ref={inp_name_container}>
+                  <input onChange={handleNameChange} placeholder='isim' type="text" ref={inp_name_ref} />
+               </div>
+
                <div className="firstpage_body_topsection_inner_bottom">
 
-                  <div className="dogumtarihi_ay border_focus">
+                  <div className="dogumtarihi_ay">
                      <label className='month_label' htmlFor="months">
                         <span>Ay</span>
                      </label>

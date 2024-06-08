@@ -1,9 +1,6 @@
 
 
-
-
 const auth_state = {
-   
 }
 
 const authReducer = (state = auth_state, action) => {

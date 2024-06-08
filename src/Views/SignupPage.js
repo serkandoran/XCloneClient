@@ -8,8 +8,8 @@ import { useEffect, useState } from 'react'
 
 import { useDispatch } from 'react-redux'
 
-
 const SignupPage = ()=>{
+
    const navigate = useNavigate()
    const [isError, setIsError] = useState(false)
    const dispatch = useDispatch()
@@ -17,7 +17,6 @@ const SignupPage = ()=>{
    useEffect(()=>{
       isLogged()
    },[])
-
 
    const isLogged = async()=>{
       let response = await fetch('http://localhost:4000/api/v1/islogged',{
@@ -29,7 +28,6 @@ const SignupPage = ()=>{
          return
       }
    }
-
    const loginWithGoogle = () => {
       async function q() {
          const response = await fetch('http://localhost:4000/api/v1/ga', {
@@ -77,12 +75,13 @@ const SignupPage = ()=>{
       }
       q()
    }
-
-
    const closeError = ()=>{
       setTimeout(() => {
          setIsError(false)
       }, 300);
+   }
+   const createAccount = ()=>{
+      // navigate('/signup/steps')
    }
 
    return <>
@@ -156,7 +155,7 @@ const SignupPage = ()=>{
                            <div id='veya_right_inner'></div>
                         </div>
                      </div>
-                     <div id="hesap_oluştur" role='button'>
+                     <div id="hesap_oluştur" role='button' onClick={createAccount}>
                         <div id="ileri_inner">
                            <span>Hesap oluştur</span>
                         </div>
@@ -178,8 +177,6 @@ const SignupPage = ()=>{
                   </div>
             </>
          }
-         
-
 
       </div>
    </div>

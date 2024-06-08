@@ -5,6 +5,7 @@ import ErrorPage from './ErrorPage.js'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
 
 
 const LoginPage = ()=>{
@@ -13,8 +14,7 @@ const LoginPage = ()=>{
    const telNo_Mail = useRef()
    const tel_mail_inner_span = useRef()
    const tel_mail_input = useRef()
-   
-
+   const dispatch = useDispatch()
    const [isError, setIsError] = useState(false)
    const [mainError, setMainError] = useState(false)
    // Error ile alakalı useEffect
@@ -27,9 +27,7 @@ const LoginPage = ()=>{
 
 
    useEffect(()=>{
-
       isLogged()
-
    },[])
 
    const isLogged = async () => {
@@ -38,6 +36,17 @@ const LoginPage = ()=>{
       })
       .then(res=>{
          if(res.status === 200){
+            dispatch({
+               type:'USER_PHOTO',
+               payload: res.data.userPicture
+            })
+            dispatch({
+               type:'ACTIVE_USER',
+               payload: {
+                  userId: res.data.userId,
+                  userName: res.data.userName
+               }
+            })
             navigate('/home');
          }
       })
@@ -105,10 +114,11 @@ const LoginPage = ()=>{
                return
             }
             let resultResponseData = await responseData.json()
-
             if (resultResponseData.isUser) {
                navigate('/home')
                return
+            } else if(resultResponseData.data && !resultResponseData.isUser){
+               await isLogged()
             }
          }
       }

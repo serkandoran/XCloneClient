@@ -12,10 +12,8 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const RichTextBox = (props) => {
    let rtb = useSelector(state => state.ui.inputField)
-   let questionRtb = useSelector(state => state.ui.questionForm)
    let dispatch = useDispatch()
 
-   const [inputclick, setInputclick] = useState(false)
    const textareaDivRef = useRef()
    const [inputValue, setInputValue] = useState('')
    const validTextLength = 10
@@ -28,22 +26,27 @@ const RichTextBox = (props) => {
    const [mousePressing, setMousePressing] = useState(false)
    let stopReleasing = false
    let outOfContent = false
-   const [mediaAr, setMediaAr] = useState([...props.wholeAr[props.elidx].mediaContent])
+   const [mediaAr, setMediaAr] = useState( !props.postDetail ? [...props.wholeAr[props.elidx].mediaContent] : [])
 
    const [gifFlag,setGifFlag] = useState(false)
    const [gifData,setGifData] = useState(null)
 
-   const [questionFlag, setQuestionFlag] = useState(props.showQuestion)
+   const [questionFlag, setQuestionFlag] = useState(!props.postDetail && props.showQuestion)
 
    const [fillBoundary, setFillBoundary] = useState(0)
    const [emjx, setemjx] = useState()
    const [emjy, setemjy] = useState()
 
    const addNewDraftRef = useRef()
-
    const generalWrapper = useRef()
+   const upimageRef = useRef()
+   const upgifRef = useRef()
+   
+   const userStore = useSelector(state => state.user)
+   const currentUserPhoto = userStore.userPicture
 
    useEffect(() => {
+      if(props.postDetail) return
       setQuestionFlag(props.showQuestion);
    }, [props.showQuestion]);
 
@@ -60,7 +63,6 @@ const RichTextBox = (props) => {
          document.removeEventListener('mousedown', handleMouseDown)
       }
    }, [])
-
    useEffect(() => {
       const handleMouseUp = (e) => {
          if (document.getElementById('backdrop_container')){
@@ -82,7 +84,6 @@ const RichTextBox = (props) => {
          document.removeEventListener('click', handleMouseUp);
       };
    }, []);
-
    useEffect(() => { // emojinin kapanması
       const handleDocumentClick = (e) => {
          if (emojiFlag && !emojiRef.current.contains(e.target)) {
@@ -95,7 +96,6 @@ const RichTextBox = (props) => {
          document.removeEventListener('click', handleDocumentClick);
       };
    }, [emojiFlag, caretstate]);
-
    useEffect(()=>{
       if(gifFlag){
          document.body.style.overflow = 'hidden'
@@ -103,24 +103,21 @@ const RichTextBox = (props) => {
          document.body.style.overflow = ''
       }
    },[gifFlag])
-
    useEffect(()=>{
-      if(props.showEl){
+      if(props.showEl && !props.postDetail){
          textareaDivRef.current.focus()
-         setInputclick(true)
       }
    },[])
-
    useEffect(() => {
       onInputChange(document.querySelector('.hp_cnt_right_top'), false, true)
    }, [])
    useEffect(() => {
-      if (!props.showEl) {
+      if (!props.postDetail && !props.showEl) {
          textareaDivRef.current.textContent = props.el.text
          onInputChange(document.querySelector('.hp_cnt_right_top'), false, true)
       }else{
-         if (!emojiFlag && !questionFlag) textareaDivRef.current.focus()
-         if (props.inpFlag){
+         if (!props.postDetail && !emojiFlag && !questionFlag) textareaDivRef.current.focus() 
+         if (!props.postDetail && props.inpFlag){
             onInputChange(document.querySelector('.hp_cnt_right_top'), false, true)
             setInputValue(0)
             setcaretstate(0)
@@ -129,34 +126,44 @@ const RichTextBox = (props) => {
          }
       }
    })
-
    useEffect(()=>{
-      let newRtb = JSON.parse(JSON.stringify(rtb))
-      newRtb[props.elidx].text = textareaDivRef.current.textContent
-      dispatch({
-         type: 'UPDATE_DRAFT',
-         payload: [...newRtb]
-      })
-      props.checkBounds(newRtb)
+      if(!props.postDetail){
+         let newRtb = JSON.parse(JSON.stringify(rtb))
+         newRtb[props.elidx].text = textareaDivRef.current.textContent
+         dispatch({
+            type: 'UPDATE_DRAFT',
+            payload: [...newRtb]
+         })
+         props.checkBounds(newRtb)
+      }
    },[inputValue,mediaAr])
-
+   useEffect(() => {
+      if(props.isGifOpen) props.isGifOpen.handleGif(gifFlag)
+   }, [gifFlag])
    const iconsInlineStyle = {
-      marginTop: !inputclick && '16px'
+      marginTop: '8px'
    }
-
    const postDivStyle = {
       userSelect: 'none',
-      opacity: props.canPost.excessBound ? '.5' :
-               props.canPost.zeroBound ? '.5' :
-               !props.canPost.questionStyle ? '.5' : '1',
+               opacity: props.postDetail && inputValue.length > 0 && inputValue.length < validTextLength ? '1' :
+                        props.postDetail && (inputValue.length === 0 || inputValue.length > validTextLength ) ? '.5' :
+                        !props.postDetail && props.canPost.excessBound ? '.5':
+                        !props.postDetail && props.canPost.zeroBound ? '.5' :
+                        !props.postDetail && !props.canPost.questionStyle ? '.5' : '1',
 
-      pointerEvents: props.canPost.excessBound ? '.5' :
-               props.canPost.zeroBound ? '.5' :
-               !props.canPost.questionStyle ? '.5' : '1'
+      pointerEvents: props.postDetail && inputValue.length > 0 && inputValue.length < validTextLength ? '' :
+               props.postDetail && (inputValue.length === 0 || inputValue.length > validTextLength) ? 'none' :
+               !props.postDetail && props.canPost.excessBound ? 'none' :
+               !props.postDetail && props.canPost.zeroBound ? 'none' :
+               !props.postDetail && !props.canPost.questionStyle ? 'none' : '',
+      cursor:  props.postDetail && inputValue.length > 0 && inputValue.length < validTextLength ? 'pointer' :
+               props.postDetail && (inputValue.length === 0 || inputValue.length > validTextLength) ? 'default' :
+               !props.postDetail && props.canPost.excessBound ? 'default' :
+               !props.postDetail && props.canPost.zeroBound ? 'default' :
+               !props.postDetail && !props.canPost.questionStyle ? 'default' : 'pointer',
    }
    const postDivButtonStyle = {
       cursor: inputValue.length > 0 ? 'pointer' : 'default',
-
    }
    const fadeIcons = {
       opacity: gifData || questionFlag || mediaAr.length >= 4 ? '0.4' : '',
@@ -177,7 +184,7 @@ const RichTextBox = (props) => {
       scale: ((360 * fillBoundary / validTextLength)*100/360) >= 80 && '1.3'
    }
    const opacityStyle = {
-      opacity: props.showEl ? '1' : '0.5'
+      opacity: props.postDetail ? '1' : props.showEl ? '1' : '0.5'
    }
    const emojiPos = {
       zIndex:'14',
@@ -185,7 +192,6 @@ const RichTextBox = (props) => {
       left: `${emjx-150}px`,
       top: `${emjy+30}px`
    }
-
    function waitForEmoji() {
       return new Promise((res, rej) => {
          if (!emojiFlag) {
@@ -223,8 +229,6 @@ const RichTextBox = (props) => {
    const inputControl = (e) => {
       if (!e.target.contains(openEmojiRef.current) || generalWrapper.current.contains(e.target)) {
 
-         setInputclick(true)
-
          setTimeout(() => {
             if (e.target.contains(openEmojiRef.current)) return
          }, 0);
@@ -232,14 +236,13 @@ const RichTextBox = (props) => {
          if(stopReleasing) return
 
          if (openEmojiRef.current.contains(e.target)) return
-         if (openQuestionRef.current.contains(e.target)) return
-
-         textareaDivRef.current.focus()
+         if (openQuestionRef.current && openQuestionRef.current.contains(e.target)) return
+         if(!upimageRef.current.contains(e.target) || !upgifRef.current.contains(e.target)) textareaDivRef.current.focus()
          findAndMoveCaret(textareaDivRef.current, caretstate)
 
-         if(addNewDraftRef.current.contains(e.target)) return
+         if(addNewDraftRef.current && addNewDraftRef.current.contains(e.target)) return
 
-         props.whichEl()
+         if(!props.postDetail) props.whichEl()
       }
    }
    const textArrays = (e, text) => {
@@ -440,7 +443,7 @@ const RichTextBox = (props) => {
       setInputValue(etarget.textContent)
       let typedInput = etarget.textContent
 
-      if(fromDraft) typedInput = props.el.text
+      if(!props.postDetail && fromDraft) typedInput = props.el.text
 
       let forDelete
       if (!fromEmoji && !fromDraft) {
@@ -536,35 +539,44 @@ const RichTextBox = (props) => {
          setMousePressing(false)
       }
    }
-
    const mediaUploadFunction = (selectedFile) => {
-
       if (!selectedFile) return
 
       let ft = selectedFile.type.split('/')[0]
 
-
       const reader = new FileReader()
       reader.onload = () => {
-         let newEl = {mtype: ft, mdata: reader.result}
-         let newAr = [...props.wholeAr]
-         newAr[props.elidx].mediaContent.push(newEl)
-         setMediaAr(prev => [...prev, newEl])
-         dispatch({
-            type:'UPDATE_DRAFT',
-            payload: newAr
-         })
+         if(!props.postDetail){
+            let newEl = {mtype: ft, mdata: reader.result}
+            let newAr = JSON.parse(JSON.stringify(props.wholeAr))
+            newAr[props.elidx].mediaContent.push(newEl)
+            setMediaAr(prev => [...prev, newEl])
+            dispatch({
+               type:'UPDATE_DRAFT',
+               payload: newAr
+            })
+         }else{
+            let newEl = { mtype: ft, mdata: reader.result }
+            setMediaAr(prev => [...prev, newEl])
+         }
       }
       reader.readAsDataURL(selectedFile)
    }
    const closeMedia = (idx) => {
       setMediaAr(prev => prev.filter((el,val) => val !== idx))
-      props.clearImage(props.elidx, idx)
+      if(!props.postDetail) props.clearImage(props.elidx, idx)
    }
    const gifHandler = ()=>{
       setGifFlag(true)
    }
    const gifDataProp = (val) =>{
+      let newEl = { mtype: 'gif', mdata: val }
+      let newAr = JSON.parse(JSON.stringify(props.wholeAr))
+      newAr[props.elidx].mediaContent.push(newEl)
+      dispatch({
+         type:'UPDATE_DRAFT',
+         payload:newAr
+      })
       setGifFlag(false)
       setMediaAr(prev => [...prev, {
          mtype: 'gif',
@@ -576,39 +588,54 @@ const RichTextBox = (props) => {
    }
    const questionHandler = (e)=>{
       setQuestionFlag(true)
-      props.questionStyleControl(undefined,'OPEN',props.elidx)
+      if(!props.postDetail) props.questionStyleControl(undefined,'OPEN',props.elidx)
    }
    const closeQuestionContainer = ()=>{
-      props.questionStyleControl(undefined, 'CLOSE', props.elidx)
+      if(!props.postDetail) props.questionStyleControl(undefined, 'CLOSE', props.elidx)
       findAndMoveCaret(textareaDivRef.current,caretstate)
       setQuestionFlag(false)
    }
    const addDraftHandler = ()=>{
-      props.addedNewField(0,textareaDivRef.current.textContent,mediaAr)
+      if(!props.postDetail) props.addedNewField(0,textareaDivRef.current.textContent,mediaAr)
    }
    const videoStarted = (videoidx)=>{
+      if(props.postDetail) return
       props.whichEl()
       props.videoStarted(props.elidx,videoidx)
    }
    const videoPaused = ()=>{
+      if (props.postDetail) return
+      
       props.videoPaused()
    }
    const questionStyleInnerRtb = (val,state,elidx) =>{
+      if (props.postDetail) return
       props.questionStyleControl(val,state,elidx)
    }
+   useEffect(()=>{
+      if(props.commentSuccess){ // set flag false after succesfull comment post
+         setInputValue('')
+         textareaDivRef.current.textContent = ''
+         let span = document.createElement('span')
+         textareaDivRef.current.appendChild(span)
+         setMediaAr([])
+         props.setCommentFlagFalse()
+      }
+   }, [props.commentSuccess])
    const postAll = ()=>{
-      props.postAll()
+      if(props.postDetail) props.postComment({commentString: inputValue,commentContentAr: mediaAr})
+      if(!props.postDetail) props.postAll()
    }
    return <>
       <div ref={generalWrapper} className="homepage_content_body general_wrapper_container" onMouseDown={(e) => inputControl(e)}>
 
          <div className="homepage_content_body_wih general_container" >
-         <span style={props.showEl ? {} : {display:'none'}} className='left_line'></span>
+         <span style={ !props.postDetail && props.showEl ? {} : {display:'none'}} className='left_line'></span>
 
 
          <div style={opacityStyle} className="header_container_wrapper">
-            <div style={props.showEl ? {minHeight:'98px'}:{minHeight:'0px'}} className="header_container">
-               <div className='profile_photo' style={{backgroundImage: 'url(https://lh3.googleusercontent.com/a/ACg8ocK_yeA5iF6fFL-TeEVWsvNlDEQBPeT1QECzUHDqibrQ=s96-c)' }}>
+            <div style={ !props.postDetail && props.showEl ? {minHeight:'98px'}:{minHeight:'0px'}} className="header_container">
+               <div className='profile_photo' style={{backgroundImage: `url(${currentUserPhoto})` }}>
                </div>
 
                <div
@@ -625,7 +652,7 @@ const RichTextBox = (props) => {
                   onMouseDown={omd}
                   onMouseUp={omu}
                   onSelect={ons}
-               >
+               > 
                   <span></span>
                </div>
             </div>
@@ -633,7 +660,7 @@ const RichTextBox = (props) => {
             <div className='draftmedia_container'>
                <div className="mediaBody mbgap vf">
                   {
-                     props.el.mediaContent && props.el.mediaContent.length > 0 && props.el.mediaContent.map((el,idx)=>{
+                     !props.postDetail && props.el.mediaContent && props.el.mediaContent.length > 0 ? props.el.mediaContent.map((el,idx)=>{
                         return <div className={['mediaBody', props.el.mediaContent.length > 1 ? 'w5' : ''].join(' ')} key={idx}>
                            <div style={hasMultipleImage} className='each_image_div'>
                               <div style={{ zIndex: '2' }} className='media_edit'>
@@ -655,11 +682,34 @@ const RichTextBox = (props) => {
                            </div>
                         </div>
                      })
+                        :
+                     mediaAr.map((el, idx) => {
+                        return <div className={['mediaBody', mediaAr.length > 1 ? 'w5' : ''].join(' ')} key={idx}>
+                           <div style={hasMultipleImage} className='each_image_div'>
+                              <div style={{ zIndex: '2' }} className='media_edit'>
+                                 <span>Edit</span>
+                              </div>
+                              <div style={{ zIndex: '2' }} onClick={() => closeMedia(idx)} className='media_close'>
+                                 <svg viewBox="0 0 24 24" className='media_close_svg'>
+                                    <g><path d="M10.59 12L4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z"></path></g>
+                                 </svg>
+                              </div>
+
+                              {
+                                 el.mtype === 'image' ? <img src={el.mdata} alt="Selected" style={imgStyle} className='uploadedMedia' /> :
+                                    el.mtype === 'video' ? <video onPlay={() => videoStarted(idx)} onPause={videoPaused} style={{ zIndex: '0', objectFit: 'fill !important', height: '100%' }} controls src={el.mdata} className='uploadedMedia'></video> :
+                                       <div className="uploadedGifContainer">
+                                          <Gif noLink gif={el.mdata} />
+                                       </div>
+                              }
+                           </div>
+                        </div>
+                     })
                   }
                </div>
 
                {
-                  mediaAr.length > 0 && props.showEl && <div className="mediaFooter">
+                  (mediaAr.length > 0 && props.showEl) || (mediaAr.length > 0 && props.postDetail) && <div className="mediaFooter">
                      <div>
                         <svg style={{ height: '18px' }} viewBox="0 0 24 24"><g><path d="M5.651 19h12.698c-.337-1.8-1.023-3.21-1.945-4.19C15.318 13.65 13.838 13 12 13s-3.317.65-4.404 1.81c-.922.98-1.608 2.39-1.945 4.19zm.486-5.56C7.627 11.85 9.648 11 12 11s4.373.85 5.863 2.44c1.477 1.58 2.366 3.8 2.632 6.46l.11 1.1H3.395l.11-1.1c.266-2.66 1.155-4.88 2.632-6.46zM12 4c-1.105 0-2 .9-2 2s.895 2 2 2 2-.9 2-2-.895-2-2-2zM8 6c0-2.21 1.791-4 4-4s4 1.79 4 4-1.791 4-4 4-4-1.79-4-4z"></path></g></svg>
                         <a href='/biryer'>Tag people</a>
@@ -682,7 +732,7 @@ const RichTextBox = (props) => {
             }
 
             {
-               questionFlag === true && <div className='draftquestion_container dq_margin'>
+              !props.postDetail && !props.postDetail && questionFlag === true && <div className='draftquestion_container dq_margin'>
                      <QuestionComponent 
                         closeQuestionContainer={closeQuestionContainer}
                         elidx = {props.elidx}
@@ -692,24 +742,22 @@ const RichTextBox = (props) => {
             }
          </div>
 
-         <div style={props.showEl ? {minHeight:'92px'}:{minHeight:'0px'}} className="homepage_content_body_wih_right footer_container" >
+         <div style={ props.showEl || props.postDetail ? {minHeight:'92px'}:{minHeight:'0px'}} className="homepage_content_body_wih_right footer_container" >
             <div className='footer_inner_container'>
-               {inputclick && <div style={{width:'100%'}} className="everyone_can_reply">
-                  <div>
-                     <svg viewBox="0 0 24 24" ><g><path d="M12 1.75C6.34 1.75 1.75 6.34 1.75 12S6.34 22.25 12 22.25 22.25 17.66 22.25 12 17.66 1.75 12 1.75zm-.25 10.48L10.5 17.5l-2-1.5v-3.5L7.5 9 5.03 7.59c1.42-2.24 3.89-3.75 6.72-3.84L11 6l-2 .5L8.5 9l5 1.5-1.75 1.73zM17 14v-3l-1.5-3 2.88-1.23c1.17 1.42 1.87 3.24 1.87 5.23 0 1.3-.3 2.52-.83 3.61L17 14z"></path></g></svg>
-                     <div>Everyone can reply</div>
-                  </div>
-               </div>}
 
                <nav className="hp_cnt_right_bottom_left" style={iconsInlineStyle}>
                   <div className='svg_holder'>
-                     <UploadImage gifAddedProp={gifData || questionFlag || mediaAr.length >= 4 ? fadeIcons : {}} mediaUploadFunction={mediaUploadFunction} />
-                     <div style={fadeIcons} onClick={gifHandler} className="hp_cnt_right_bottom_left_icons">
+                        <div ref={upimageRef} className='up-image'>
+                        <UploadImage gifAddedProp={gifData || questionFlag || mediaAr.length >= 4 ? fadeIcons : {}} mediaUploadFunction={mediaUploadFunction} />
+                     </div>
+                     <div ref={upgifRef} style={fadeIcons} onClick={gifHandler} className="hp_cnt_right_bottom_left_icons">
                         <svg viewBox="0 0 24 24"><g><path d="M3 5.5C3 4.119 4.12 3 5.5 3h13C19.88 3 21 4.119 21 5.5v13c0 1.381-1.12 2.5-2.5 2.5h-13C4.12 21 3 19.881 3 18.5v-13zM5.5 5c-.28 0-.5.224-.5.5v13c0 .276.22.5.5.5h13c.28 0 .5-.224.5-.5v-13c0-.276-.22-.5-.5-.5h-13zM18 10.711V9.25h-3.74v5.5h1.44v-1.719h1.7V11.57h-1.7v-.859H18zM11.79 9.25h1.44v5.5h-1.44v-5.5zm-3.07 1.375c.34 0 .77.172 1.02.43l1.03-.86c-.51-.601-1.28-.945-2.05-.945C7.19 9.25 6 10.453 6 12s1.19 2.75 2.72 2.75c.85 0 1.54-.344 2.05-.945v-2.149H8.38v1.032H9.4v.515c-.17.086-.42.172-.68.172-.76 0-1.36-.602-1.36-1.375 0-.688.6-1.375 1.36-1.375z"></path></g></svg>
                      </div>
-                     <div ref={openQuestionRef} onClick={questionHandler} style={{...fadeIcons,...fadeQuestion}} className="hp_cnt_right_bottom_left_icons">
-                        <svg viewBox="0 0 24 24"><g><path d="M6 5c-1.1 0-2 .895-2 2s.9 2 2 2 2-.895 2-2-.9-2-2-2zM2 7c0-2.209 1.79-4 4-4s4 1.791 4 4-1.79 4-4 4-4-1.791-4-4zm20 1H12V6h10v2zM6 15c-1.1 0-2 .895-2 2s.9 2 2 2 2-.895 2-2-.9-2-2-2zm-4 2c0-2.209 1.79-4 4-4s4 1.791 4 4-1.79 4-4 4-4-1.791-4-4zm20 1H12v-2h10v2zM7 7c0 .552-.45 1-1 1s-1-.448-1-1 .45-1 1-1 1 .448 1 1z"></path></g></svg>
-                     </div>
+                     {
+                        !props.postDetail && <div ref={openQuestionRef} onClick={questionHandler} style={{...fadeIcons,...fadeQuestion}} className="hp_cnt_right_bottom_left_icons">
+                           <svg viewBox="0 0 24 24"><g><path d="M6 5c-1.1 0-2 .895-2 2s.9 2 2 2 2-.895 2-2-.9-2-2-2zM2 7c0-2.209 1.79-4 4-4s4 1.791 4 4-1.79 4-4 4-4-1.791-4-4zm20 1H12V6h10v2zM6 15c-1.1 0-2 .895-2 2s.9 2 2 2 2-.895 2-2-.9-2-2-2zm-4 2c0-2.209 1.79-4 4-4s4 1.791 4 4-1.79 4-4 4-4-1.791-4-4zm20 1H12v-2h10v2zM7 7c0 .552-.45 1-1 1s-1-.448-1-1 .45-1 1-1 1 .448 1 1z"></path></g></svg>
+                        </div>
+                     }
                      <div ref={openEmojiRef} onClick={openEmoji} className="hp_cnt_right_bottom_left_icons">
                         <svg viewBox="0 0 24 24"><g><path d="M8 9.5C8 8.119 8.672 7 9.5 7S11 8.119 11 9.5 10.328 12 9.5 12 8 10.881 8 9.5zm6.5 2.5c.828 0 1.5-1.119 1.5-2.5S15.328 7 14.5 7 13 8.119 13 9.5s.672 2.5 1.5 2.5zM12 16c-2.224 0-3.021-2.227-3.051-2.316l-1.897.633c.05.15 1.271 3.684 4.949 3.684s4.898-3.533 4.949-3.684l-1.896-.638c-.033.095-.83 2.322-3.053 2.322zm10.25-4.001c0 5.652-4.598 10.25-10.25 10.25S1.75 17.652 1.75 12 6.348 1.75 12 1.75 22.25 6.348 22.25 12zm-2 0c0-4.549-3.701-8.25-8.25-8.25S3.75 7.451 3.75 12s3.701 8.25 8.25 8.25 8.25-3.701 8.25-8.25z"></path></g></svg>
                      </div>
@@ -721,18 +769,19 @@ const RichTextBox = (props) => {
                      </div>
                   </div>
 
-
-                  <div style={fillBoundary > 0 ? {display:'flex'}:{display:'none'} } className="addAnotherPost">
-                     <div style={boundaryStyle} className="boundary">
-                        <div className="boundary_inner"></div>
+                  {
+                     !props.postDetail && <div style={fillBoundary > 0 ? {display:'flex'}:{display:'none'} } className="addAnotherPost">
+                        <div style={boundaryStyle} className="boundary">
+                           <div className="boundary_inner"></div>
+                        </div>
+                        <div className="tweet_seperator"></div>
+                        <div ref={addNewDraftRef} onClick={addDraftHandler} className="plus_sign">
+                           <svg viewBox="0 0 24 24" aria-hidden="true"><g><path d="M11 11V4h2v7h7v2h-7v7h-2v-7H4v-2h7z"></path></g></svg>
+                        </div>
                      </div>
-                     <div className="tweet_seperator"></div>
-                     <div ref={addNewDraftRef} onClick={addDraftHandler} className="plus_sign">
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><g><path d="M11 11V4h2v7h7v2h-7v7h-2v-7H4v-2h7z"></path></g></svg>
-                     </div>
-                  </div>
-                  <div onClick={postAll} style={postDivStyle} className={['postall_btn', !props.canPost.zeroBound && !props.canPost.excessBound && props.canPost.questionStyle ? 'postall_btn_hover' : ''].join(' ')}>
-                     <button className='postall_btn_inner' disabled = {props.canPost.zeroBound && !props.canPost.excessBound && props.canPost.questionStyle} style={postDivButtonStyle}>Post all</button>
+                  }
+                  <div onClick={postAll} style={postDivStyle} className={['postall_btn', props.postDetail && inputValue.length > 0 ? 'postall_btn_hover' : !props.postDetail && !props.canPost.zeroBound && !props.canPost.excessBound && props.canPost.questionStyle ? 'postall_btn_hover' : ''].join(' ')}>
+                     <button className='postall_btn_inner' disabled={(props.postDetail && inputValue.length === 0) || ( !props.postDetail && props.canPost.zeroBound && !props.canPost.excessBound && props.canPost.questionStyle) }  style={postDivButtonStyle}>{props.postDetail ? 'Reply' : 'Post All'}</button>
                   </div>
                </nav>
              </div>

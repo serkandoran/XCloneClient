@@ -5,22 +5,18 @@ import Header from './HomePageSubFolders/Headers'
 import Rightbar from './RightBar'
 import Flow from './HomePageSubFolders/Flow'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import axios from 'axios'
-
+import FlowDraft from './HomePageSubFolders/FlowDraft'
 
 
 
 const HomePage = () => {
-   
-   const postArReducer = useSelector(state => state.posts)
-   
    const navigate = useNavigate()
    const [postAr, setPostAr] = useState([])
    const [pageOffset, setPageOffset] = useState(0)
-   const postLimit = 4
-
-
+   const postLimit = 8
+   const dispatch = useDispatch()
    useEffect(() => {
       const resolveHomePageData = async()=>{
          await isLogged()
@@ -28,23 +24,17 @@ const HomePage = () => {
       }
       resolveHomePageData()
    }, [])
-
    useEffect(()=>{
       if(pageOffset > 0) getData('scroll')
    }, [pageOffset])
-
    useEffect(()=>{
       window.addEventListener('scroll', handleScroll,true);
       return () => window.removeEventListener('scroll', handleScroll,true);
    },[])
-
-
    const handleScroll = () => {
       if (window.innerHeight + document.documentElement.querySelector('body').querySelector('#root').scrollTop < document.documentElement.querySelector('body').querySelector('#root').querySelector('.user_routes_container').offsetHeight) return
-      console.log(window.innerHeight + document.documentElement.querySelector('body').querySelector('#root').scrollTop, document.documentElement.querySelector('body').querySelector('#root').querySelector('.user_routes_container').offsetHeight);
       setPageOffset((prev) => prev + postLimit)
    }
-
    const getData = async(param = 'initial')=>{
       axios.get(`http://localhost:4000/api/v1/getpostdata?pageOffset=${pageOffset}&postLimit=${postLimit}`)
       .then((res)=>{
@@ -56,24 +46,41 @@ const HomePage = () => {
       })
    }
    const isLogged = async () => {
-      let loginFail = false
       await axios.get('http://localhost:4000/api/v1/islogged', {
          withCredentials: true
       })
+      .then((res)=>{
+         dispatch({
+            type:'ACTIVE_USER',
+            payload: {
+               userId:res.data.userId,
+               userName:res.data.userName
+            }
+         })
+         dispatch({
+            type:'USER_PHOTO',
+            payload:res.data.userPicture
+         })
+      })
       .catch((err)=> {
          console.log(err,' hata meydana geldi')
-         loginFail = true
          navigate('/login');
+         dispatch({
+            type:'LOGOUT_USER'
+         })
       })
-      if(loginFail) return
    }
-   const addNewElement = async()=>{
-      await getData()
+   const addNewElement = (val)=>{
+      setPostAr(prev => [...prev,val])
+   }
+   const updateDraftHomePage = (val)=>{
+      let newAr = JSON.parse(JSON.stringify(postAr))
+      let idx = newAr.findIndex( item => item._id === val.updatedPost._id)
+      newAr[idx] = {...{...newAr[idx]},...val.updatedPost}
+      setPostAr(newAr)
    }
 
    return <div className='homepage_container_main' >
-
-
          <div className='body_container'>
             <Header />
 
@@ -81,20 +88,22 @@ const HomePage = () => {
 
             {
                postAr.map((el,idx)=>{
-                  return <Flow 
+                  return el.type === 'post' ? <Flow 
                      key={idx}
                      data = {el}
+                     from = {'homepage'}
+                     /> :
+                     <FlowDraft 
+                     data = {el}
+                     key={idx}
+                     updateDraftHomePage={updateDraftHomePage}
                   />
                })
             }
-            
-
          </div>
-
          <Rightbar />
 
       </div>
-
 }
 
 export default HomePage
