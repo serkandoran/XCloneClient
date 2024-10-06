@@ -45,7 +45,7 @@ const initial_state =[
 
 const PostReducer = (state = initial_state, action)=>{
 
-   switch(action.payload){
+   switch(action.payload){ // düzelt
       case 'ADD_POST':
          return {
             post_ar:[

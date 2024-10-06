@@ -26,7 +26,7 @@ const NavBar = ()=>{
    const currentUserName = userStore.userName
    const navigate = useNavigate()
    const userAvatar = {
-      backgroundImage: `url(${currentUserPhoto})`
+      backgroundImage: `url('${currentUserPhoto}')`
    }
 
    useEffect(()=>{
