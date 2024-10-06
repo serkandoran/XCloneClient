@@ -1,14 +1,15 @@
 import '../../Styles/UserRoutesCss/NavBar.css'
 import { useEffect, useRef, useState } from "react"
-import { Link, useFetcher } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { createPortal } from 'react-dom'
-
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 
 const NavBar = ()=>{
    const [selectedSvg, setSelectedSvg] = useState('/'+window.location.href.split('/')[window.location.href.split('/').length-1])
-   // Current user photoyu gelene data değerine göre güncelleyeceksin.
-   const currentUserPhoto = 'https://lh3.googleusercontent.com/a/ACg8ocK_yeA5iF6fFL-TeEVWsvNlDEQBPeT1QECzUHDqibrQ=s96-c'
+   const userStore = useSelector(state => state.user)
    const [modalFlag, setModalFlag] = useState(false)
    const modalRef = useRef()
    const [loFlag, setLoFlag] = useState(false)
@@ -21,6 +22,12 @@ const NavBar = ()=>{
    const creator_studio_expand = useRef()
    const professional_tools_expand = useRef()
    const settings_support_expand = useRef()
+   const currentUserPhoto = userStore.userPicture
+   const currentUserName = userStore.userName
+   const navigate = useNavigate()
+   const userAvatar = {
+      backgroundImage: `url('${currentUserPhoto}')`
+   }
 
    useEffect(()=>{
       if(svgName === 'first'){
@@ -92,11 +99,22 @@ const NavBar = ()=>{
          loRef.current.classList.add('modal_open')
       }
    },[loFlag])
-   // logout Modalı
+   // logout Modal
    function openProfileModal(){
       setLoFlag(true)
    }
-   
+   const logout = ()=>{
+      axios.get('http://localhost:4000/api/v1/logout',{
+         withCredentials:true
+      })
+      .then(res=>{
+         navigate('/login')
+      })
+      .catch(err =>{
+         console.log(err,' error occured when logging out');
+      })
+   }
+
    return <header className="hp_left" >
          <div>
             <div className="hepleft_inner eeh">
@@ -226,7 +244,7 @@ const NavBar = ()=>{
                               </div>
                            </Link>
                            <Link to="/profile" onClick={() => svgChoose('/profile')}>
-                              {/* burada linke tıklayınca www..twt.../nurhan14138 'e gidiyor */}
+                              {/* routing the page www..twt.../nurhan14138 */}
                               <div>
                                  <div className="hptopmid_nav_leftchild">
                                     {
@@ -271,8 +289,7 @@ const NavBar = ()=>{
                         <div className="hpib_bottom_inner_menu">
                            <div className="hpib_bottom_inner_menu_1">
                               <div>
-                                 <div>
-                                 </div>
+                                 <div style={userAvatar}></div>
                               </div>
                            </div>
                            <div className="hpib_bottom_inner_menu_2">
@@ -281,13 +298,13 @@ const NavBar = ()=>{
                                     <div className="hpib_bottom_inner_menu_2_top">
                                        <div>
                                           <span>
-                                             nurhan candan
+                                             {currentUserName}
                                           </span>
                                        </div>
                                     </div>
                                     <div className="hpib_bottom_inner_menu_2_bottom">
                                        <div>
-                                          @nurhan14138
+                                          @{currentUserName}
                                        </div>
                                     </div>
                                  </div>
@@ -410,8 +427,8 @@ const NavBar = ()=>{
                         <Link>
                            <div>Add an existing account</div>
                         </Link>
-                        <Link>
-                           <div>Log out @nurhan14138</div>
+                        <Link onClick={logout}>
+                           <div>Log out @{currentUserName}</div>
                         </Link>
                      </div>
                   </div>

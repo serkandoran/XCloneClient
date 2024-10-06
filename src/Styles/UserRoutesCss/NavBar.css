@@ -1,6 +1,4 @@
 
-
-
 .eeh{
    display: flex;
    align-items: stretch;
@@ -931,6 +929,7 @@
    background-color: rgba(255, 255, 255, 1.00);
    box-shadow: 0 0 15px rgba(101, 119, 134, 0.2),
       0 0 3px 1px rgba(101, 119, 134, 0.15);
+   z-index: 300;
 }
 .profile_modal_svg{
       pointer-events: auto;
@@ -977,9 +976,6 @@
    font-weight: 700;
    font-size: 17px;
 }
-
-
-
 
 
 

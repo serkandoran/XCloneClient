@@ -1,0 +1,22 @@
+
+.flowdraft-container{
+   position: relative;
+}
+.hover:hover{
+   background-color: rgba(0, 0, 0, 0.03);
+}
+.lines {
+   position: absolute;
+   width: 2px;
+   background-color: rgb(207,217,222);
+   left: 36px !important;
+   top: 0;
+   bottom: 0;
+   z-index: -1;
+}
+
+
+
+
+
+

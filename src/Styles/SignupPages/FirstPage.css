@@ -12,8 +12,6 @@
    display: flex;
    flex-direction: column;
 }
-
-
 .firstpage_header {
    height: 53px;
    max-width: 600px;
@@ -379,3 +377,18 @@
 .border_focus {
    box-shadow: 0 0 0 2px rgb(29, 155, 240);
 }
+.inp-name{
+   border: 1px solid rgb(207, 217, 222);
+   width: 100%;
+   border-radius: 4px;
+}
+.inp-name>input{
+   height: 46px;
+   border: none;
+   box-sizing: border-box;
+   font-size: 16px;
+}
+.inp-name>input:focus{
+   outline: none;
+}
+

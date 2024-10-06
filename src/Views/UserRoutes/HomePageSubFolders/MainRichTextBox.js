@@ -42,6 +42,13 @@ const MainRichTextBox = (props) => {
    const [playingVideo,setPlayingVideo] = useState(undefined)
    const mediaBodyRef = useRef()
 
+   const userStore = useSelector(state => state.user)
+   const currentUserPhoto = userStore.userPicture
+
+   const userAvatar = {
+      backgroundImage: `url(${currentUserPhoto})`
+   }
+
    useEffect(() => {
       const handleMouseDown = (e) => {
          if (!textareaDivRef.current.contains(e.target)) {
@@ -544,7 +551,7 @@ const MainRichTextBox = (props) => {
       })
       setDraftFlag(true)
    }
-   const closeDraftHandler = () => {
+   const closeDraftHandler = (focusinp=true) => {
       setMediaAr([])
       setDraftFlag(false)
       textareaDivRef.current.textContent = ''
@@ -553,7 +560,11 @@ const MainRichTextBox = (props) => {
       setFillBoundary(0)
       setcaretstate(0)
       setInputValue('')
-      textareaDivRef.current.focus()
+      if(!focusinp){
+         setTimeout(() => {
+            textareaDivRef.current.blur()
+         }, 0);
+      }
       setQuestionFlag(false)
       dispatch({
          type: 'DISCARD_DRAFT',
@@ -599,23 +610,20 @@ const MainRichTextBox = (props) => {
          main_obj.postDetail.push(inner_obj)
       }
 
-      console.log(main_obj);
       if(from === 'draft') main_obj = val
-
-      let errorOccured = false
-      let createdPostData
 
       axios.post('http://localhost:4000/api/v1/posttweet',main_obj,
       {
          withCredentials: true,
       })
       .then((res)=> {
-         createdPostData = res.data.post
-      })
-      .catch((err) => errorOccured = true)
-      if(errorOccured) return
+         props.addNewElement(res.data.post)
+         closeDraftHandler(false)
+         console.log('post tweet successfull');
+         })
+      .catch((err) => console.log(err))
 
-
+      
    }
 
    return <>
@@ -625,7 +633,7 @@ const MainRichTextBox = (props) => {
 
                <div className="homepage_content_body_wih" onClick={(e) => inputControl(e)}>
                   <div className="homepage_content_body_wih_left">
-                     <div style={{ backgroundImage: 'url(https://lh3.googleusercontent.com/a/ACg8ocK_yeA5iF6fFL-TeEVWsvNlDEQBPeT1QECzUHDqibrQ=s96-c)' }}></div>
+                     <div style={userAvatar}></div>
                   </div>
 
                   <div className="homepage_content_body_wih_right" >

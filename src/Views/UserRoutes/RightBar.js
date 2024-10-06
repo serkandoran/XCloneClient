@@ -81,55 +81,55 @@ const Rightbar = ()=>{
 
                <div className="rightbar_first_data">
                   <div className='rightbar_data1'>Sports - Trending</div>
-                  <div className='rightbar_data2'>#UtanDenizAkkaya</div>
+                  <div className='rightbar_data2'>#örnek</div>
                   <div className='rightbar_data3'>10.8K posts</div>
                </div>
 
                <div className="rightbar_first_data">
                   <div className='rightbar_data1'>Sports - Trending</div>
-                  <div className='rightbar_data2'>#UtanDenizAkkaya</div>
+                  <div className='rightbar_data2'>#örnek</div>
                   <div className='rightbar_data3'>10.8K posts</div>
                </div>
 
                <div className="rightbar_first_data">
                   <div className='rightbar_data1'>Sports - Trending</div>
-                  <div className='rightbar_data2'>#UtanDenizAkkaya</div>
+                  <div className='rightbar_data2'>#örnek</div>
                   <div className='rightbar_data3'>10.8K posts</div>
                </div>
 
                <div className="rightbar_first_data">
                   <div className='rightbar_data1'>Sports - Trending</div>
-                  <div className='rightbar_data2'>#UtanDenizAkkaya</div>
+                  <div className='rightbar_data2'>#örnek</div>
                   <div className='rightbar_data3'>10.8K posts</div>
                </div>
 
                <div className="rightbar_first_data">
                   <div className='rightbar_data1'>Sports - Trending</div>
-                  <div className='rightbar_data2'>#UtanDenizAkkaya</div>
+                  <div className='rightbar_data2'>#örnek</div>
                   <div className='rightbar_data3'>10.8K posts</div>
                </div>
 
                <div className="rightbar_first_data">
                   <div className='rightbar_data1'>Sports - Trending</div>
-                  <div className='rightbar_data2'>#UtanDenizAkkaya</div>
+                  <div className='rightbar_data2'>#örnek</div>
                   <div className='rightbar_data3'>10.8K posts</div>
                </div>
 
                <div className="rightbar_first_data">
                   <div className='rightbar_data1'>Sports - Trending</div>
-                  <div className='rightbar_data2'>#UtanDenizAkkaya</div>
+                  <div className='rightbar_data2'>#örnek</div>
                   <div className='rightbar_data3'>10.8K posts</div>
                </div>
 
                <div className="rightbar_first_data">
                   <div className='rightbar_data1'>Sports - Trending</div>
-                  <div className='rightbar_data2'>#UtanDenizAkkaya</div>
+                  <div className='rightbar_data2'>#örnek</div>
                   <div className='rightbar_data3'>10.8K posts</div>
                </div>
 
                <div className="rightbar_first_data">
                   <div className='rightbar_data1'>Sports - Trending</div>
-                  <div className='rightbar_data2'>#UtanDenizAkkaya</div>
+                  <div className='rightbar_data2'>#örnek</div>
                   <div className='rightbar_data3'>10.8K posts</div>
                </div>
 
@@ -155,8 +155,8 @@ const Rightbar = ()=>{
                         <div className="whotofollow_persondata_right">
                            <div className="whotofollow_persondata_right_inner">
                               <div className="whotofollow_persondata_right_inner_left">
-                                 <div className='wtfpdril_bold'>nazliiiii</div>
-                                 <div className='wtfpdril_thin'>@nazlican</div>
+                                 <div className='wtfpdril_bold'>örnek</div>
+                                 <div className='wtfpdril_thin'>@örnek</div>
                               </div>
                               <div className="whotofollow_persondata_right_inner_right">
                                  <button>Follow</button>
@@ -174,8 +174,8 @@ const Rightbar = ()=>{
                         <div className="whotofollow_persondata_right">
                            <div className="whotofollow_persondata_right_inner">
                               <div className="whotofollow_persondata_right_inner_left">
-                                 <div className='wtfpdril_bold'>nazliiiii</div>
-                                 <div className='wtfpdril_thin'>@nazlican</div>
+                                 <div className='wtfpdril_bold'>örnek</div>
+                                 <div className='wtfpdril_thin'>@örnek</div>
                               </div>
                               <div className="whotofollow_persondata_right_inner_right">
                                  <button>Follow</button>
@@ -193,8 +193,8 @@ const Rightbar = ()=>{
                         <div className="whotofollow_persondata_right">
                            <div className="whotofollow_persondata_right_inner">
                               <div className="whotofollow_persondata_right_inner_left">
-                                 <div className='wtfpdril_bold'>nazliiiii</div>
-                                 <div className='wtfpdril_thin'>@nazlican</div>
+                                 <div className='wtfpdril_bold'>örnek</div>
+                                 <div className='wtfpdril_thin'>@örnek</div>
                               </div>
                               <div className="whotofollow_persondata_right_inner_right">
                                  <button>Follow</button>

@@ -25,13 +25,19 @@ const Draft = (props)=>{
       excessBound:true,
       questionStyle:true
    })
-   const [activeQuestions,setActiveQuestions] = useState([])
-   const [activeQidx,setActiveQidx] = useState([])
+   const [gifopen,setGifopen] = useState(false)
 
 
    useEffect(()=>{
       window.scroll(0,0)
    })
+   const handleGif = (val)=>{
+      setGifopen(val)
+   }
+   useEffect(()=>{
+      if(gifopen) draft_container.current.style.opacity = '0'
+      else draft_container.current.style.opacity = '1'
+   },[gifopen])
    const checkBounds = (storeParam)=>{
       let zeroBounds = false
       let excessBounds = false
@@ -172,7 +178,6 @@ const Draft = (props)=>{
       }
       setCanPost(canPost)
    }
-   
    const postAll = ()=>{
       let mainObj = {}
       mainObj.type = 'draft'
@@ -230,6 +235,7 @@ const Draft = (props)=>{
                postAll = {postAll}
                questionStyleControl={questionStyleControl}
                showQuestion = { generalStore.questionForm[idx] && generalStore.questionForm[idx].isActive ? true : false }
+               isGifOpen = {{handleGif,where:'draft'}}
             />
          })
       }

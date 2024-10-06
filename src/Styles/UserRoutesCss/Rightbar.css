@@ -1,6 +1,4 @@
 
-
-
 .rightbar_container{
    display: flex;
    width: 350px;
@@ -21,19 +19,7 @@
    flex-direction: column;
    flex-shrink: 0;
    bottom: -865px;
-   /* Buraya dikkat. */
-   /* sayfada aşşagı indikçe */
-   /* bir aşamadan sonra */
-   /* burası bottom değilde top oluyor. */
-   /* buraya cok dikkat */
 }
-/* Buraya dikkat. */
-/* sayfada aşşagı indikçe */
-/* bir aşamadan sonra */
-/* burası bottom değilde top oluyor. */
-/* buraya cok dikkat */
-
-
 .rightbar{
    padding-bottom: 70px;
    padding-top: 13px;
